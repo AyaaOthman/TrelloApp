@@ -4,10 +4,17 @@ interface Props {
   user?: object;
   description: string;
   status: string;
+  className?: string;
 }
-const TaskCard: React.FC<Props> = ({ title, user, description, status }) => {
+const TaskCard: React.FC<Props> = ({
+  title,
+  user,
+  description,
+  status,
+  className,
+}) => {
   return (
-    <div className="rounded">
+    <div className={className}>
       <h2>{title}</h2>
       <p>{description}</p>
       <p>{status}</p>
