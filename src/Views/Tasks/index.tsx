@@ -1,5 +1,14 @@
 import React from "react";
 
-export const TasksPage = () => {
-  return <div>TasksPage</div>;
+const TasksPage = () => {
+  return (
+    <div>
+      <p className="bg-bluee">TasksPage</p>
+      <p className="bg-lightBlue">TasksPage</p>
+      <p className="bg-Orange">TasksPage</p>
+      <p className="bg-LightOrange">TasksPage</p>
+    </div>
+  );
 };
+
+export default TasksPage;
