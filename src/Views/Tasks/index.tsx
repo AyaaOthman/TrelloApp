@@ -1,13 +1,11 @@
 import React from "react";
+import TaskCard from "../../Components/UI/Cards/TaskCard";
 
 const TasksPage = () => {
   return (
-    <div>
-      <p className="bg-bluee">TasksPage</p>
-      <p className="bg-lightBlue">TasksPage</p>
-      <p className="bg-Orange">TasksPage</p>
-      <p className="bg-LightOrange">TasksPage</p>
-    </div>
+    <main>
+      <TaskCard title="Hello" description="lorem sdf;ldvs" status="doing" />
+    </main>
   );
 };
 
