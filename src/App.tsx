@@ -1,8 +1,9 @@
-import React from 'react';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Layout from './Components/Layout/Layout';
-import Signup from './Components/Signup/Signup';
-import Login from './Components/Login/Login';
+import React from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Layout from "./Components/MainLayout/Layout";
+import Login from "./Components/Login/Login";
+import Register from "./Views/Auth/Register";
+import { TasksPage } from "./Views/Tasks";
 
 function App() {
   const routes = createBrowserRouter([
@@ -10,18 +11,22 @@ function App() {
       path: "",
       element: <Layout />,
       children: [
-        
         {
           path: "register",
-          element: <Signup />,
+          element: <Register />,
         },
         {
           path: "login",
           element: <Login />,
-        }]
-      }])
-      return <RouterProvider router={routes}></RouterProvider>;
-
+        },
+        {
+          path: "tasks",
+          element: <TasksPage />,
+        },
+      ],
+    },
+  ]);
+  return <RouterProvider router={routes}></RouterProvider>;
 }
 
 export default App;
