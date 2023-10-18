@@ -2,9 +2,9 @@ import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./Components/MainLayout/Layout";
 
-import Register from "./Views/Auth/Register";
+import Register from "./Views/Auth/Register/Register";
 import TasksPage from "./Views/Tasks";
-import Login from "./Views/Auth/Login";
+import Login from "./Views/Auth/Login/Login";
 
 function App() {
   const routes = createBrowserRouter([
