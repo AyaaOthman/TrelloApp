@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 import { IRegister } from "../../../Interfaces/register.interface";
-import { axiosInstance, nonAuthAxiosInstance } from "../../../Api/axios";
+import { axiosInstance } from "../../../Api/axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from "react-router-dom";
@@ -48,14 +48,13 @@ const Register = () => {
         onSubmit: async (values) => {
             setIsLoading(true)
             const {confirmPassword, age, ...data} = values       
-            await nonAuthAxiosInstance.post('/register', data).then(({data}) => {
+            await axiosInstance.post('/register', data).then(({data}) => {
                 toast.success(data.message)
-                setIsLoading(false)
             }).catch(err => {
                 toast.error(err?.response?.data?.message)
+            }).finally(() => {
                 setIsLoading(false)
             })
-            
         },
     })
 

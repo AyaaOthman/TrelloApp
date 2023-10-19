@@ -1,14 +1,16 @@
-import  {useState} from "react";
+import  {useState, useContext} from "react";
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 import { ILogin } from "../../../Interfaces/register.interface";
-import { nonAuthAxiosInstance } from "../../../Api/axios";
+import { axiosInstance } from "../../../Api/axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../Context/auth.context";
 
 const Login = () => {
 
+    const {login} = useContext(AuthContext)
     const [isLoading, setIsLoading] = useState(false) 
     const navigate = useNavigate()
 
@@ -31,15 +33,15 @@ const Login = () => {
         
         onSubmit: async (values) => {
             setIsLoading(true)      
-            await nonAuthAxiosInstance.post('/login', values).then(({data}) => {
-              localStorage.setItem('token', data.token)
-              toast.success(data.message)
-              setIsLoading(false)
-              navigate('/tasks')
+            await axiosInstance.post('/login', values).then(({data}) => {
+                login(data.token)
+                toast.success(data.message)
+                navigate('/tasks')
             }).catch(err => {
-              toast.error(err?.response?.data?.message)
-              setIsLoading(false)
-            }) 
+                toast.error(err?.response?.data?.message)
+            }).finally(() => {
+                setIsLoading(false)
+            })
         },
     })
 
