@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { IRegister } from "../../../interfaces/register.interface";
+import { IRegister } from "../../../Interfaces/register.interface";
 import { axiosInstance } from "../../../Api/axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
