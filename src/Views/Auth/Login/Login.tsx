@@ -1,8 +1,8 @@
-import React, {useState} from "react";
+import  {useState} from "react";
 import * as yup from 'yup'
 import {useFormik} from 'formik'
-import { ILogin, IRegister } from "../../../Interfaces/register.interface";
-import { axiosInstance } from "../../../Api/axios";
+import { ILogin } from "../../../Interfaces/register.interface";
+import { nonAuthAxiosInstance } from "../../../Api/axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from "react-router-dom";
@@ -31,7 +31,7 @@ const Login = () => {
         
         onSubmit: async (values) => {
             setIsLoading(true)      
-            await axiosInstance.post('/login', values).then(({data}) => {
+            await nonAuthAxiosInstance.post('/login', values).then(({data}) => {
               localStorage.setItem('token', data.token)
               toast.success(data.message)
               setIsLoading(false)
@@ -73,7 +73,7 @@ const Login = () => {
                             <button 
                                 type="submit" 
                                 className="w-full text-gray-100 bg-cyan-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                                disabled={!formik.isValid || !formik.dirty}
+                                disabled={!formik.isValid || !formik.dirty || isLoading}
                             >
                                 {
                                     isLoading ? <div className="text-center">

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import * as yup from 'yup'
 import {useFormik} from 'formik'
 import { IRegister } from "../../../Interfaces/register.interface";
-import { axiosInstance } from "../../../Api/axios";
+import { axiosInstance, nonAuthAxiosInstance } from "../../../Api/axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from "react-router-dom";
@@ -48,7 +48,7 @@ const Register = () => {
         onSubmit: async (values) => {
             setIsLoading(true)
             const {confirmPassword, age, ...data} = values       
-            await axiosInstance.post('/register', data).then(({data}) => {
+            await nonAuthAxiosInstance.post('/register', data).then(({data}) => {
                 toast.success(data.message)
                 setIsLoading(false)
             }).catch(err => {
@@ -148,7 +148,7 @@ const Register = () => {
                             <button 
                                 type="submit" 
                                 className="w-full text-gray-100 bg-cyan-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                                disabled={!formik.isValid || !formik.dirty}
+                                disabled={!formik.isValid || !formik.dirty || isLoading}
                             >
                                 {
                                     isLoading ? <div className="text-center">
