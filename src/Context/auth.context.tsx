@@ -1,51 +1,82 @@
 import jwtDecode from 'jwt-decode';
 import {createContext, useReducer} from 'react'
 
-interface IAuthState {
-    isLoggedIn: boolean;
-    token: string;
-    id: string
-}
-
 interface ITokenDecoded {
     id: string;
     email: string;
     iat: number
 }
 
-export const AuthContext = createContext({})
+interface IAuthState {
+    isLoggedIn: boolean;
+    token: string;
+    id: string
+}
 
-function reducer(state: IAuthState , action: any ) {
+enum ACTION_TYPES {
+    LOGIN,
+    LOGOUT
+}
+
+interface ActionPayload extends ITokenDecoded {
+    isLoggedIn: boolean;
+    token: string
+}
+
+type ReducerAction = {
+    type: ACTION_TYPES,
+    payload?: ActionPayload
+}
+
+export interface IAuthContext {
+    state: IAuthState
+    login: (token: string) => boolean
+    logOut: () => void
+}
+
+const initialState: IAuthState = {
+    token: '',
+    id: '',
+    isLoggedIn: false
+}
+
+export const AuthContext = createContext<IAuthContext>({
+    state: initialState,
+    login: () => false,
+    logOut: () => {},
+})
+
+
+function reducer(state: IAuthState , action: ReducerAction ): IAuthState {
     switch(action.type) {
-        case 'login':
-            return {...action.payload, isLoggedIn: true}
-        case 'logout':
-            return {isLoggedIn: false}
+        case ACTION_TYPES.LOGIN:
+            if (!action.payload) return initialState
+            return {...action.payload}
+        case ACTION_TYPES.LOGOUT:
+            return initialState
         default: 
             return state
     }
 }
 
-const AuthContextProvider:React.FC = ({children}: React.PropsWithChildren) => {
+const AuthContextProvider = ({children}: React.PropsWithChildren) => {
 
-    const [state, dispatch] = useReducer<any>(reducer, {isLoggedIn: false, token: null, id: null})
+    const [state, dispatch] = useReducer(reducer, initialState)
 
     const login = (token: string) => {
         const decode = jwtDecode<ITokenDecoded>(token)
-        console.log(token);
         if (!decode?.id) {
             return false
         } 
         localStorage.setItem('token', token)
-        // dispatch({type: 'login', payload: {...decode, token}})
+        dispatch({type: ACTION_TYPES.LOGIN, payload: {...decode, token, isLoggedIn: true}})
         return true
     }
 
     const logOut = () => {
         localStorage.removeItem('token')
-        // dispatch({type: 'logout'})
+        dispatch({type: ACTION_TYPES.LOGOUT})
     }
-
 
     return <AuthContext.Provider value={{state, login, logOut}}>
         {children}
