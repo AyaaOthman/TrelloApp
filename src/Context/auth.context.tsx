@@ -1,5 +1,5 @@
 import jwtDecode from "jwt-decode";
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
 
 interface ITokenDecoded {
     id: string;
