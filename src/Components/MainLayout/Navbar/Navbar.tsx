@@ -1,29 +1,29 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 // import styles from "./Navbar.module.css";
 export default function Navbar() {
     return (
-        <nav className=" flex justify-center py-1 px-6 bg-black shadow  w-full">
-            <div className="container flex flex-col text-center items-center sm:flex-row sm:text-left sm:justify-between sm:items-baseline  w-full">
+        <nav className=" flex w-full justify-center bg-black px-6 py-1  shadow">
+            <div className="container flex w-full flex-col items-center text-center sm:flex-row sm:items-baseline sm:justify-between  sm:text-left">
                 <div className="flex items-center ">
                     <img src="./logo.png" alt="logo" className="w-16" />
-                    <h4 className="text-Orange text-xl font-bold">Todo App</h4>
+                    <h4 className="text-xl font-bold text-Orange">Todo App</h4>
                 </div>
                 <div>
                     <Link
                         to="/register"
-                        className="text-lg font-bold text-white py-2 px-3 no-underline hover:bg-Orange rounded-md ml-2"
+                        className="ml-2 rounded-md px-3 py-2 text-lg font-bold text-white no-underline hover:bg-Orange"
                     >
                         Register
                     </Link>
                     <Link
                         to="/login"
-                        className="text-lg font-bold text-white no-underline py-2 px-3 hover:bg-Orange rounded-md  ml-2"
+                        className="ml-2 rounded-md px-3 py-2 text-lg font-bold text-white no-underline  hover:bg-Orange"
                     >
                         Login
                     </Link>
                 </div>
             </div>
         </nav>
-    )
+    );
 }

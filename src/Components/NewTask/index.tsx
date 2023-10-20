@@ -1,5 +1,5 @@
-import { useFormik } from 'formik'
-import React, { useState } from 'react'
+import { useFormik } from "formik";
+import React, { useState } from "react";
 import {
     TERipple,
     TEModal,
@@ -8,39 +8,39 @@ import {
     TEModalHeader,
     TEModalBody,
     TEModalFooter,
-} from 'tw-elements-react'
-import { NewTask } from '../../interfaces/Task'
-import * as yup from 'yup'
+} from "tw-elements-react";
+import { NewTask } from "../../interfaces/Task";
+import * as yup from "yup";
 
 export default function AddTask() {
-    const [showModal, setShowModal] = useState(false)
+    const [showModal, setShowModal] = useState(false);
     const formik = useFormik<NewTask>({
         initialValues: {
-            title: '',
-            description: '',
-            assignTo: '',
-            deadline: '',
+            title: "",
+            description: "",
+            assignTo: "",
+            deadline: "",
         },
         validationSchema: yup.object({
             title: yup
                 .string()
-                .required('title is required')
-                .max(30, ' must be less than 30 character'),
+                .required("title is required")
+                .max(30, " must be less than 30 character"),
             description: yup
                 .string()
-                .required('description is required')
+                .required("description is required")
                 .max(250),
             assignTo: yup
                 .string()
-                .email('email not valid')
-                .required('must assign task'),
-            deadline: yup.string().required('must set task deadline'),
+                .email("email not valid")
+                .required("must assign task"),
+            deadline: yup.string().required("must set task deadline"),
             createdOn: yup.date().default(() => new Date()),
         }),
         onSubmit: (values) => {
-            console.log(values)
+            console.log(values);
         },
-    })
+    });
     return (
         <div>
             {/* <!-- Button trigger modal --> */}
@@ -92,7 +92,7 @@ export default function AddTask() {
                                     onSubmit={formik.handleSubmit}
                                     className="p-2"
                                 >
-                                    <div className="flex flex-col items-start mb-4">
+                                    <div className="mb-4 flex flex-col items-start">
                                         <label htmlFor="title">
                                             Task Title
                                         </label>
@@ -100,21 +100,21 @@ export default function AddTask() {
                                             id="title"
                                             name="title"
                                             type="text"
-                                            className="border w-full"
+                                            className="w-full border"
                                             value={formik.values.title}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                         />
                                         {formik.errors.title &&
                                             formik.touched.title && (
-                                                <div className="bg-red-800 w-full my-2 p-1">
+                                                <div className="my-2 w-full bg-red-800 p-1">
                                                     <p className="text-red-50">
                                                         {formik.errors.title}
                                                     </p>
                                                 </div>
                                             )}
                                     </div>
-                                    <div className="flex flex-col items-start mb-4">
+                                    <div className="mb-4 flex flex-col items-start">
                                         <label htmlFor="description">
                                             Task Description
                                         </label>
@@ -124,14 +124,14 @@ export default function AddTask() {
                                             id="description"
                                             cols={30}
                                             rows={5}
-                                            className="border w-full"
+                                            className="w-full border"
                                             value={formik.values.description}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                         ></textarea>
                                         {formik.errors.description &&
                                             formik.touched.description && (
-                                                <div className="bg-red-800 w-full my-2 p-1">
+                                                <div className="my-2 w-full bg-red-800 p-1">
                                                     <p className="text-red-50">
                                                         {
                                                             formik.errors
@@ -141,7 +141,7 @@ export default function AddTask() {
                                                 </div>
                                             )}
                                     </div>
-                                    <div className="flex justify-between mb-4">
+                                    <div className="mb-4 flex justify-between">
                                         <div className="flex flex-col items-start">
                                             <label htmlFor="assignTo">
                                                 Assign To
@@ -157,7 +157,7 @@ export default function AddTask() {
                                             />
                                             {formik.errors.assignTo &&
                                                 formik.touched.assignTo && (
-                                                    <div className="bg-red-800 w-full my-2 p-1">
+                                                    <div className="my-2 w-full bg-red-800 p-1">
                                                         <p className="text-red-50">
                                                             {
                                                                 formik.errors
@@ -183,7 +183,7 @@ export default function AddTask() {
 
                                             {formik.errors.deadline &&
                                                 formik.touched.deadline && (
-                                                    <div className="bg-red-800 w-full my-2 p-1">
+                                                    <div className="my-2 w-full bg-red-800 p-1">
                                                         <p className="text-red-50">
                                                             {
                                                                 formik.errors
@@ -218,5 +218,5 @@ export default function AddTask() {
                 </TEModalDialog>
             </TEModal>
         </div>
-    )
+    );
 }
