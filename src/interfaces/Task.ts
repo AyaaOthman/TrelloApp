@@ -20,3 +20,10 @@ export interface Task {
   updatedAt?: string;
   __v?: number;
 }
+
+
+type RestNewTasks = Pick<Task, 'title' | 'description' | 'deadline'>
+
+export interface NewTask extends RestNewTasks {
+    assignTo: string
+}
