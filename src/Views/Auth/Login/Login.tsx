@@ -1,59 +1,59 @@
-import { useState, useContext } from 'react'
-import * as yup from 'yup'
-import { useFormik } from 'formik'
-import { ILogin } from '../../../interfaces/register.interface'
-import { axiosInstance } from '../../../Api/axios'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { Link, useNavigate } from 'react-router-dom'
-import { AuthContext } from '../../../Context/auth.context'
+import { useState, useContext } from "react";
+import * as yup from "yup";
+import { useFormik } from "formik";
+import { ILogin } from "../../../interfaces/register.interface";
+import { axiosInstance } from "../../../Api/axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../Context/auth.context";
 
 const Login = () => {
-    const { login } = useContext(AuthContext)
-    const [isLoading, setIsLoading] = useState(false)
-    const navigate = useNavigate()
+    const { login } = useContext(AuthContext);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     const formik = useFormik<ILogin>({
         initialValues: {
-            email: '',
-            password: '',
+            email: "",
+            password: "",
         },
 
         validationSchema: yup.object({
             email: yup
                 .string()
-                .email('in-valid email')
-                .required('email is required'),
+                .email("in-valid email")
+                .required("email is required"),
             password: yup
                 .string()
-                .min(5, 'password must be more than 5 characters')
+                .min(5, "password must be more than 5 characters")
                 .required(),
         }),
 
         onSubmit: async (values) => {
-            setIsLoading(true)
+            setIsLoading(true);
             await axiosInstance
-                .post('/login', values)
+                .post("/login", values)
                 .then(({ data }) => {
-                    login(data.token)
-                    toast.success(data.message)
-                    navigate('/tasks')
+                    login(data.token);
+                    toast.success(data.message);
+                    navigate("/tasks");
                 })
                 .catch((err) => {
-                    toast.error(err?.response?.data?.message)
+                    toast.error(err?.response?.data?.message);
                 })
                 .finally(() => {
-                    setIsLoading(false)
-                })
+                    setIsLoading(false);
+                });
         },
-    })
+    });
 
     return (
-        <section className="bg-gradient-to-b from-cyan-700 to-cyan-50 relative">
-            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen">
-                <div className="w-full shadow-lg rounded-lg md:mt-0 sm:max-w-md xl:p-0">
-                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 className="text-xl font-bold leading-tight text-center tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        <section className="relative bg-gradient-to-b from-cyan-700 to-cyan-50">
+            <div className="mx-auto flex h-screen flex-col items-center justify-center px-6 py-8">
+                <div className="w-full rounded-lg shadow-lg sm:max-w-md md:mt-0 xl:p-0">
+                    <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
+                        <h1 className="text-center text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
                             Login
                         </h1>
                         <form
@@ -63,7 +63,7 @@ const Login = () => {
                             <div>
                                 <label
                                     htmlFor="email"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                                 >
                                     email:
                                 </label>
@@ -74,12 +74,12 @@ const Login = () => {
                                     type="email"
                                     name="email"
                                     id="email"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
                                     placeholder="name@company.com"
                                 />
                                 {formik.errors.email &&
                                     formik.touched.email && (
-                                        <div className="bg-red-600 rounded-lg my-2 p-1">
+                                        <div className="my-2 rounded-lg bg-red-600 p-1">
                                             <p className="text-red-50">
                                                 {formik.errors.email}
                                             </p>
@@ -89,7 +89,7 @@ const Login = () => {
                             <div>
                                 <label
                                     htmlFor="password"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                                 >
                                     Password:
                                 </label>
@@ -101,11 +101,11 @@ const Login = () => {
                                     name="password"
                                     id="password"
                                     placeholder="••••••••"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
                                 />
                                 {formik.errors.password &&
                                     formik.touched.password && (
-                                        <div className="bg-red-600 rounded-lg my-2 p-1">
+                                        <div className="my-2 rounded-lg bg-red-600 p-1">
                                             <p className="text-red-50">
                                                 {formik.errors.password}
                                             </p>
@@ -114,7 +114,7 @@ const Login = () => {
                             </div>
                             <button
                                 type="submit"
-                                className="w-full text-gray-100 bg-cyan-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                className="w-full rounded-lg bg-cyan-500 px-5 py-2.5 text-center text-sm font-medium text-gray-100 hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300"
                                 disabled={
                                     !formik.isValid ||
                                     !formik.dirty ||
@@ -126,7 +126,7 @@ const Login = () => {
                                         <div role="status">
                                             <svg
                                                 aria-hidden="true"
-                                                className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                                                className="mr-2 inline h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
                                                 viewBox="0 0 100 101"
                                                 fill="none"
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -150,7 +150,7 @@ const Login = () => {
                                 )}
                             </button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Haven't account?{' '}
+                                Haven't account?{" "}
                                 <Link
                                     to="/register"
                                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
@@ -164,7 +164,7 @@ const Login = () => {
             </div>
             <ToastContainer theme="colored" position="top-center" />
         </section>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;

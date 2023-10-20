@@ -9,33 +9,35 @@ import AuthContextProvider from "./Context/auth.context";
 import Landing from "./Views/Landing/Landing";
 
 function App() {
-  const routes = createBrowserRouter([
-    {
-      path: "",
-      element: <Layout />,
-      children: [
+    const routes = createBrowserRouter([
         {
-          path: "",
-          element: <Landing />
+            path: "",
+            element: <Layout />,
+            children: [
+                {
+                    path: "",
+                    element: <Landing />,
+                },
+                {
+                    path: "register",
+                    element: <Register />,
+                },
+                {
+                    path: "login",
+                    element: <Login />,
+                },
+                {
+                    path: "tasks",
+                    element: <TasksPage />,
+                },
+            ],
         },
-        {
-          path: "register",
-          element: <Register />,
-        },
-        {
-          path: "login",
-          element: <Login />,
-        },
-        {
-          path: "tasks",
-          element: <TasksPage />,
-        },
-      ],
-    },
-  ]);
-  return <AuthContextProvider>
-    <RouterProvider router={routes}></RouterProvider>;
-  </AuthContextProvider>
+    ]);
+    return (
+        <AuthContextProvider>
+            <RouterProvider router={routes}></RouterProvider>;
+        </AuthContextProvider>
+    );
 }
 
 export default App;

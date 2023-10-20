@@ -1,88 +1,88 @@
-import React, { useState } from 'react'
-import * as yup from 'yup'
-import { useFormik } from 'formik'
-import { IRegister } from '../../../interfaces/register.interface'
-import { axiosInstance } from '../../../Api/axios'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { Link } from 'react-router-dom'
+import React, { useState } from "react";
+import * as yup from "yup";
+import { useFormik } from "formik";
+import { IRegister } from "../../../interfaces/register.interface";
+import { axiosInstance } from "../../../Api/axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 
 const Register = () => {
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
 
     const formik = useFormik<IRegister>({
         initialValues: {
-            username: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            phone: '',
+            username: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            phone: "",
             age: 0,
-            gender: '',
+            gender: "",
         },
 
         validationSchema: yup.object({
             username: yup
                 .string()
-                .min(3, 'username must be more than 3 characters')
-                .max(20, 'username is too long')
-                .required('username is required'),
+                .min(3, "username must be more than 3 characters")
+                .max(20, "username is too long")
+                .required("username is required"),
             email: yup
                 .string()
-                .email('in-valid email')
-                .required('email is required'),
+                .email("in-valid email")
+                .required("email is required"),
             password: yup
                 .string()
-                .min(5, 'password must be more than 5 characters')
+                .min(5, "password must be more than 5 characters")
                 .required(),
             confirmPassword: yup
                 .string()
                 .oneOf(
-                    [yup.ref('password')],
-                    'confirmation Password must match password'
+                    [yup.ref("password")],
+                    "confirmation Password must match password"
                 )
-                .required('confirmation password is required'),
+                .required("confirmation password is required"),
             phone: yup
                 .string()
                 .matches(
                     /^(002|\+2)?(01)[0125][0-9]{8}$/,
-                    'in-valid egyptian mobile number'
+                    "in-valid egyptian mobile number"
                 )
-                .required('phone is required'),
+                .required("phone is required"),
             age: yup
                 .number()
                 .positive()
-                .min(12, 'not allowed young children')
-                .max(80, 'not allowed old people'),
+                .min(12, "not allowed young children")
+                .max(80, "not allowed old people"),
             gender: yup.string(),
         }),
 
         onSubmit: async (values) => {
-            setIsLoading(true)
-            const { confirmPassword, age, ...data } = values
+            setIsLoading(true);
+            const { confirmPassword, age, ...data } = values;
             await axiosInstance
-                .post('/register', data)
+                .post("/register", data)
                 .then(({ data }) => {
-                    toast.success(data.message)
+                    toast.success(data.message);
                 })
                 .catch((err) => {
-                    toast.error(err?.response?.data?.message)
+                    toast.error(err?.response?.data?.message);
                 })
                 .finally(() => {
-                    setIsLoading(false)
-                })
+                    setIsLoading(false);
+                });
         },
-    })
+    });
 
     const handleGenderBtn = (e: React.ChangeEvent<HTMLInputElement>) =>
-        (formik.values.gender = e.target.value)
+        (formik.values.gender = e.target.value);
 
     return (
-        <section className="bg-gradient-to-b from-cyan-700 to-cyan-50 relative">
-            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen">
-                <div className="w-full shadow-lg rounded-lg md:mt-0 sm:max-w-md xl:p-0">
-                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 className="text-xl font-bold leading-tight text-center tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        <section className="relative bg-gradient-to-b from-cyan-700 to-cyan-50">
+            <div className="mx-auto flex h-screen flex-col items-center justify-center px-6 py-8">
+                <div className="w-full rounded-lg shadow-lg sm:max-w-md md:mt-0 xl:p-0">
+                    <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
+                        <h1 className="text-center text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
                             Register
                         </h1>
                         <form
@@ -92,7 +92,7 @@ const Register = () => {
                             <div className="">
                                 <label
                                     htmlFor="username"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                                 >
                                     username:
                                 </label>
@@ -103,12 +103,12 @@ const Register = () => {
                                     type="text"
                                     name="username"
                                     id="username"
-                                    className="border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    className="block w-full rounded-lg border border-gray-300 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
                                     placeholder="username"
                                 />
                                 {formik.errors.username &&
                                     formik.touched.username && (
-                                        <div className="bg-red-600 rounded-lg my-2 p-1">
+                                        <div className="my-2 rounded-lg bg-red-600 p-1">
                                             <p className="text-red-50">
                                                 {formik.errors.username}
                                             </p>
@@ -118,7 +118,7 @@ const Register = () => {
                             <div>
                                 <label
                                     htmlFor="email"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                                 >
                                     email:
                                 </label>
@@ -129,12 +129,12 @@ const Register = () => {
                                     type="email"
                                     name="email"
                                     id="email"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
                                     placeholder="name@company.com"
                                 />
                                 {formik.errors.email &&
                                     formik.touched.email && (
-                                        <div className="bg-red-600 rounded-lg my-2 p-1">
+                                        <div className="my-2 rounded-lg bg-red-600 p-1">
                                             <p className="text-red-50">
                                                 {formik.errors.email}
                                             </p>
@@ -144,7 +144,7 @@ const Register = () => {
                             <div>
                                 <label
                                     htmlFor="password"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                                 >
                                     Password:
                                 </label>
@@ -156,11 +156,11 @@ const Register = () => {
                                     name="password"
                                     id="password"
                                     placeholder="••••••••"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
                                 />
                                 {formik.errors.password &&
                                     formik.touched.password && (
-                                        <div className="bg-red-600 rounded-lg my-2 p-1">
+                                        <div className="my-2 rounded-lg bg-red-600 p-1">
                                             <p className="text-red-50">
                                                 {formik.errors.password}
                                             </p>
@@ -170,7 +170,7 @@ const Register = () => {
                             <div>
                                 <label
                                     htmlFor="confirm-password"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                                 >
                                     Confirm password:
                                 </label>
@@ -182,11 +182,11 @@ const Register = () => {
                                     name="confirmPassword"
                                     id="confirmPassword"
                                     placeholder="••••••••"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
                                 />
                                 {formik.errors.confirmPassword &&
                                     formik.touched.confirmPassword && (
-                                        <div className="bg-red-600 rounded-lg my-2 p-1">
+                                        <div className="my-2 rounded-lg bg-red-600 p-1">
                                             <p className="text-red-50">
                                                 {formik.errors.confirmPassword}
                                             </p>
@@ -196,7 +196,7 @@ const Register = () => {
                             <div>
                                 <label
                                     htmlFor="phone"
-                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                                 >
                                     phone number:
                                 </label>
@@ -207,12 +207,12 @@ const Register = () => {
                                     type="text"
                                     name="phone"
                                     id="phone"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
                                     placeholder="phone number.."
                                 />
                                 {formik.errors.phone &&
                                     formik.touched.phone && (
-                                        <div className="bg-red-600 rounded-lg my-2 p-1">
+                                        <div className="my-2 rounded-lg bg-red-600 p-1">
                                             <p className="text-red-50">
                                                 {formik.errors.phone}
                                             </p>
@@ -223,7 +223,7 @@ const Register = () => {
                                 <div>
                                     <label
                                         htmlFor="age"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                                     >
                                         age:
                                     </label>
@@ -234,47 +234,47 @@ const Register = () => {
                                         type="number"
                                         name="age"
                                         id="age"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
                                         placeholder="age"
                                     />
                                     {formik.errors.age &&
                                         formik.touched.age && (
-                                            <div className="bg-red-600 rounded-lg my-2 p-1">
+                                            <div className="my-2 rounded-lg bg-red-600 p-1">
                                                 <p className="text-red-50">
                                                     {formik.errors.age}
                                                 </p>
                                             </div>
                                         )}
                                 </div>
-                                <div className="flex flex-row mx-2 items-end justify-center">
-                                    <div className="flex items-center pl-4 rounded-lg dark:border-gray-700">
+                                <div className="mx-2 flex flex-row items-end justify-center">
+                                    <div className="flex items-center rounded-lg pl-4 dark:border-gray-700">
                                         <input
                                             id="male"
                                             type="radio"
                                             value="male"
                                             onChange={(e) => handleGenderBtn(e)}
                                             name="gender"
-                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            className="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
                                         />
                                         <label
                                             htmlFor="bordered-radio-1"
-                                            className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                            className="ml-2 w-full py-4 text-sm font-medium text-gray-900 dark:text-gray-300"
                                         >
                                             Male
                                         </label>
                                     </div>
-                                    <div className="flex items-center pl-4 rounded-lg dark:border-gray-700">
+                                    <div className="flex items-center rounded-lg pl-4 dark:border-gray-700">
                                         <input
                                             id="female"
                                             type="radio"
                                             value="female"
                                             onChange={(e) => handleGenderBtn(e)}
                                             name="gender"
-                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            className="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
                                         />
                                         <label
                                             htmlFor="bordered-radio-2"
-                                            className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                            className="ml-2 w-full py-4 text-sm font-medium text-gray-900 dark:text-gray-300"
                                         >
                                             Female
                                         </label>
@@ -282,12 +282,12 @@ const Register = () => {
                                 </div>
                             </div>
                             <div className="flex items-start">
-                                <div className="flex items-center h-5">
+                                <div className="flex h-5 items-center">
                                     <input
                                         id="terms"
                                         aria-describedby="terms"
                                         type="checkbox"
-                                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                                        className="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-primary-300 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
                                     />
                                 </div>
                                 <div className="ml-3 text-sm">
@@ -295,7 +295,7 @@ const Register = () => {
                                         htmlFor="terms"
                                         className="font-light text-gray-500 dark:text-gray-300"
                                     >
-                                        I accept the{' '}
+                                        I accept the{" "}
                                         <a
                                             className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                                             href="#"
@@ -307,7 +307,7 @@ const Register = () => {
                             </div>
                             <button
                                 type="submit"
-                                className="w-full text-gray-100 bg-cyan-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                className="w-full rounded-lg bg-cyan-500 px-5 py-2.5 text-center text-sm font-medium text-gray-100 hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300"
                                 disabled={
                                     !formik.isValid ||
                                     !formik.dirty ||
@@ -319,7 +319,7 @@ const Register = () => {
                                         <div role="status">
                                             <svg
                                                 aria-hidden="true"
-                                                className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                                                className="mr-2 inline h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
                                                 viewBox="0 0 100 101"
                                                 fill="none"
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -343,7 +343,7 @@ const Register = () => {
                                 )}
                             </button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Already have an account?{' '}
+                                Already have an account?{" "}
                                 <Link
                                     to="/login"
                                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
@@ -357,7 +357,7 @@ const Register = () => {
             </div>
             <ToastContainer theme="colored" position="top-center" />
         </section>
-    )
-}
+    );
+};
 
-export default Register
+export default Register;
