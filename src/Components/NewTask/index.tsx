@@ -1,5 +1,8 @@
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
     TERipple,
     TEModal,
@@ -7,13 +10,17 @@ import {
     TEModalContent,
     TEModalHeader,
     TEModalBody,
-    TEModalFooter,
 } from "tw-elements-react";
 import { NewTask } from "../../interfaces/Task";
 import * as yup from "yup";
+import axios from "axios";
+import { AuthContext } from "../../Context/auth.context";
 
 export default function AddTask() {
     const [showModal, setShowModal] = useState(false);
+    const { state } = useContext(AuthContext);
+    const token = state.token;
+
     const formik = useFormik<NewTask>({
         initialValues: {
             title: "",
@@ -25,22 +32,39 @@ export default function AddTask() {
             title: yup
                 .string()
                 .required("title is required")
+                .min(3, " must be at least 3 character")
                 .max(30, " must be less than 30 character"),
             description: yup
                 .string()
                 .required("description is required")
-                .max(250),
+                .max(250, "must be  less than 250 character")
+                .min(10, "must be at least 30 character"),
             assignTo: yup
                 .string()
-                .email("email not valid")
+
                 .required("must assign task"),
             deadline: yup.string().required("must set task deadline"),
-            createdOn: yup.date().default(() => new Date()),
         }),
-        onSubmit: (values) => {
-            console.log(values);
+        onSubmit: async (values, { resetForm }) => {
+            let data = {
+                ...values,
+            };
+            let addedTasks = await axios
+                .post("https://trello-app-iti.onrender.com/tasks", data, {
+                    headers: { authorization: ` Bearer__${token}` },
+                })
+                .then(({ data }) => {
+                    toast.success(data.message);
+                    resetForm();
+                    setShowModal(false);
+                })
+                .catch((err) => {
+                    const errorMsg = err?.message;
+                    toast.error(errorMsg);
+                });
         },
     });
+
     return (
         <div>
             {/* <!-- Button trigger modal --> */}
@@ -62,6 +86,11 @@ export default function AddTask() {
                             <h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
                                 New Task
                             </h5>
+                            <ToastContainer
+                                theme="colored"
+                                position="top-center"
+                            />
+
                             {/* <!--Close button--> */}
                             <button
                                 type="button"
@@ -144,10 +173,10 @@ export default function AddTask() {
                                     <div className="mb-4 flex justify-between">
                                         <div className="flex flex-col items-start">
                                             <label htmlFor="assignTo">
-                                                Assign To
+                                                Assignd To ID
                                             </label>
                                             <input
-                                                type="email"
+                                                type="text"
                                                 className="border"
                                                 id="assignTo"
                                                 name="assignTo"
