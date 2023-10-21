@@ -56,6 +56,7 @@ export default function AddTask() {
                 .then(({ data }) => {
                     toast.success(data.message);
                     resetForm();
+                    setShowModal(false);
                 })
                 .catch((err) => {
                     const errorMsg = err?.message;

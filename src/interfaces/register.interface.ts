@@ -9,3 +9,4 @@ export interface IRegister extends ILogin {
     gender: string;
     phone: string;
 }
+export type IUser = Pick<IRegister, "username" | "age" | "gender" | "phone">;

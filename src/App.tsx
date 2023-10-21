@@ -7,7 +7,7 @@ import TasksPage from "./Views/Tasks";
 import Login from "./Views/Auth/Login/Login";
 import AuthContextProvider from "./Context/auth.context";
 import Landing from "./Views/Landing/Landing";
-import ProfilePage from "./Views/profile";
+import ProfilePage from "./Views/Profile";
 
 function App() {
     const routes = createBrowserRouter([
