@@ -16,12 +16,14 @@ export default function Navbar() {
                     <div>
                         <Link
                             to="/profile"
-                            className="ml-2 rounded-md px-3 py-2 text-lg font-bold text-white no-underline hover:bg-Orange">
+                            className="ml-2 rounded-md px-3 py-2 text-lg font-bold text-white no-underline hover:bg-Orange"
+                        >
                             Profile
                         </Link>
                         <Link
                             to="/tasks"
-                            className="ml-2 rounded-md px-3 py-2 text-lg font-bold text-white no-underline  hover:bg-Orange">
+                            className="ml-2 rounded-md px-3 py-2 text-lg font-bold text-white no-underline  hover:bg-Orange"
+                        >
                             Tasks
                         </Link>
                     </div>
@@ -29,12 +31,14 @@ export default function Navbar() {
                     <div>
                         <Link
                             to="/register"
-                            className="ml-2 rounded-md px-3 py-2 text-lg font-bold text-white no-underline hover:bg-Orange">
+                            className="ml-2 rounded-md px-3 py-2 text-lg font-bold text-white no-underline hover:bg-Orange"
+                        >
                             Register
                         </Link>
                         <Link
                             to="/login"
-                            className="ml-2 rounded-md px-3 py-2 text-lg font-bold text-white no-underline  hover:bg-Orange">
+                            className="ml-2 rounded-md px-3 py-2 text-lg font-bold text-white no-underline  hover:bg-Orange"
+                        >
                             Login
                         </Link>
                     </div>

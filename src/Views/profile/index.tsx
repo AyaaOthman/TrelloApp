@@ -141,14 +141,16 @@ export default function ProfilePage() {
                             <TERipple rippleColor="white">
                                 <button
                                     className="inline-block rounded bg-Orange px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-black hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-Orange focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-orange-400 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                                    onClick={() => setShowModal(true)}>
+                                    onClick={() => setShowModal(true)}
+                                >
                                     Edit Profile
                                 </button>
                             </TERipple>
                             <TEModal
                                 show={showModal}
                                 setShow={setShowModal}
-                                staticBackdrop>
+                                staticBackdrop
+                            >
                                 <TEModalDialog>
                                     <TEModalContent>
                                         <TEModalHeader>
@@ -168,14 +170,16 @@ export default function ProfilePage() {
                                                 onClick={() =>
                                                     setShowModal(false)
                                                 }
-                                                aria-label="Close">
+                                                aria-label="Close"
+                                            >
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
                                                     strokeWidth="1.5"
                                                     stroke="currentColor"
-                                                    className="h-6 w-6">
+                                                    className="h-6 w-6"
+                                                >
                                                     <path
                                                         strokeLinecap="round"
                                                         strokeLinejoin="round"
@@ -191,7 +195,8 @@ export default function ProfilePage() {
                                                     onSubmit={
                                                         formik.handleSubmit
                                                     }
-                                                    className="p-2">
+                                                    className="p-2"
+                                                >
                                                     <div className="mb-4 flex flex-col items-start">
                                                         <label htmlFor="username">
                                                             User Name
@@ -244,7 +249,8 @@ export default function ProfilePage() {
                                                             }
                                                             onBlur={
                                                                 formik.handleBlur
-                                                            }>
+                                                            }
+                                                        >
                                                             <option value="male">
                                                                 male
                                                             </option>
@@ -350,14 +356,16 @@ export default function ProfilePage() {
                                                                 setShowModal(
                                                                     false
                                                                 )
-                                                            }>
+                                                            }
+                                                        >
                                                             Discard
                                                         </button>
                                                     </TERipple>
                                                     <TERipple rippleColor="light">
                                                         <button
                                                             type="submit"
-                                                            className="ml-2 inline-block rounded !bg-Orange px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-black hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-Orange focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-orange-400 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                                                            className="ml-2 inline-block rounded !bg-Orange px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-black hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-Orange focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-orange-400 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+                                                        >
                                                             update
                                                         </button>
                                                     </TERipple>
