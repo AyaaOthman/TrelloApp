@@ -1,5 +1,7 @@
 import { useFormik } from "formik";
 import React, { useContext, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
     TERipple,
@@ -18,19 +20,7 @@ export default function AddTask() {
     const [showModal, setShowModal] = useState(false);
     const { state } = useContext(AuthContext);
     const token = state.token;
-    console.log(token);
-    async function addTask(values: NewTask) {
-        let data = {
-            ...values,
-        };
-        let addedTasks = await axios.post(
-            "https://trello-app-iti.onrender.com/tasks",
-            data,
-            {
-                headers: { authorization: ` Bearer__${token}` },
-            }
-        );
-    }
+
     const formik = useFormik<NewTask>({
         initialValues: {
             title: "",
@@ -55,11 +45,25 @@ export default function AddTask() {
                 .required("must assign task"),
             deadline: yup.string().required("must set task deadline"),
         }),
-        onSubmit: (values) => {
-            console.log(values);
-            addTask(values);
+        onSubmit: async (values, { resetForm }) => {
+            let data = {
+                ...values,
+            };
+            let addedTasks = await axios
+                .post("https://trello-app-iti.onrender.com/tasks", data, {
+                    headers: { authorization: ` Bearer__${token}` },
+                })
+                .then(({ data }) => {
+                    toast.success(data.message);
+                    resetForm();
+                })
+                .catch((err) => {
+                    const errorMsg = err?.message;
+                    toast.error(errorMsg);
+                });
         },
     });
+
     return (
         <div>
             {/* <!-- Button trigger modal --> */}
@@ -80,6 +84,11 @@ export default function AddTask() {
                             <h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
                                 New Task
                             </h5>
+                            <ToastContainer
+                                theme="colored"
+                                position="top-center"
+                            />
+
                             {/* <!--Close button--> */}
                             <button
                                 type="button"
@@ -160,7 +169,7 @@ export default function AddTask() {
                                     <div className="mb-4 flex justify-between">
                                         <div className="flex flex-col items-start">
                                             <label htmlFor="assignTo">
-                                                Assign To
+                                                Assignd To ID
                                             </label>
                                             <input
                                                 type="text"
