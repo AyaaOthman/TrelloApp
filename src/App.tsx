@@ -21,11 +21,11 @@ function App() {
                 },
                 {
                     path: "register",
-                    element: <Register />,
+                    element: <Register />
                 },
                 {
                     path: "login",
-                    element: <Login />,
+                    element: <Login />
                 },
                 {
                     path: "tasks",

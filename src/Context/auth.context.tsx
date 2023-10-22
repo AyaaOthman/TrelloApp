@@ -66,6 +66,7 @@ const AuthContextProvider = ({ children }: React.PropsWithChildren) => {
         if (!decode?.id) {
             return false;
         }
+        localStorage.setItem('token', token)
         dispatch({
             type: ACTION_TYPES.LOGIN,
             payload: { ...decode, token, isLoggedIn: true },

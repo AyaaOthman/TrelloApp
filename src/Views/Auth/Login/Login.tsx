@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../Context/auth.context";
+import GoogleAuth from "../../../Components/GoogleAuth/GoogleAuth";
 
 const Login = () => {
     const { login } = useContext(AuthContext);
@@ -149,6 +150,7 @@ const Login = () => {
                                     <span>Login</span>
                                 )}
                             </button>
+                            <GoogleAuth />
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Haven't account?{" "}
                                 <Link

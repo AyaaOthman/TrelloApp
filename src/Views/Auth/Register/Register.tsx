@@ -6,6 +6,7 @@ import { axiosInstance } from "../../../Api/axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
+import GoogleAuth from "../../../Components/GoogleAuth/GoogleAuth";
 
 const Register = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -342,6 +343,7 @@ const Register = () => {
                                     <span>Create an account</span>
                                 )}
                             </button>
+                            <GoogleAuth />
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                                 Already have an account?{" "}
                                 <Link
