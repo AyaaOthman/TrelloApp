@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../../Context/auth.context";
 // import styles from "./Navbar.module.css";
 export default function Navbar() {
-    const { state } = useContext(AuthContext);
+    const { state, logOut } = useContext(AuthContext);
     const token = state.token;
     return (
         <nav className=" flex w-full justify-center bg-black px-6 py-1  shadow">
@@ -25,6 +25,13 @@ export default function Navbar() {
                             className="ml-2 rounded-md px-3 py-2 text-lg font-bold text-white no-underline  hover:bg-Orange"
                         >
                             Tasks
+                        </Link>
+                        <Link
+                            to="/login"
+                            className="ml-2 rounded-md px-3 py-2 text-lg font-bold text-white no-underline  hover:bg-Orange"
+                            onClick={logOut}
+                        >
+                            Logout
                         </Link>
                         
                     </div>
