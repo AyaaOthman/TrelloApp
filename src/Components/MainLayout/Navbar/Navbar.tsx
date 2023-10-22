@@ -26,6 +26,7 @@ export default function Navbar() {
                         >
                             Tasks
                         </Link>
+                        
                     </div>
                 ) : (
                     <div>

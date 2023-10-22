@@ -83,7 +83,7 @@ const Register = () => {
             <div className="mx-auto flex h-screen flex-col items-center justify-center px-6 py-8">
                 <div className="w-full rounded-lg shadow-lg sm:max-w-md md:mt-0 xl:p-0">
                     <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
-                        <h1 className="text-center text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
+                        <h1 className="text-center text-xl font-bold leading-tight tracking-tight text-cyan-50 md:text-2xl">
                             Register
                         </h1>
                         <form
@@ -93,7 +93,7 @@ const Register = () => {
                             <div className="">
                                 <label
                                     htmlFor="username"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                    className="mb-2 block text-sm font-medium text-cyan-100 dark:text-white"
                                 >
                                     username:
                                 </label>
@@ -104,7 +104,7 @@ const Register = () => {
                                     type="text"
                                     name="username"
                                     id="username"
-                                    className="block w-full rounded-lg border border-gray-300 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
+                                    className="block w-full rounded-lg border border-gray-300 p-2.5 text-cyan-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
                                     placeholder="username"
                                 />
                                 {formik.errors.username &&
@@ -119,7 +119,7 @@ const Register = () => {
                             <div>
                                 <label
                                     htmlFor="email"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                    className="mb-2 block text-sm font-medium text-cyan-200 dark:text-white"
                                 >
                                     email:
                                 </label>
@@ -130,7 +130,7 @@ const Register = () => {
                                     type="email"
                                     name="email"
                                     id="email"
-                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
+                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-cyan-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
                                     placeholder="name@company.com"
                                 />
                                 {formik.errors.email &&
@@ -145,7 +145,7 @@ const Register = () => {
                             <div>
                                 <label
                                     htmlFor="password"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                    className="mb-2 block text-sm font-medium text-cyan-300 dark:text-white"
                                 >
                                     Password:
                                 </label>
@@ -157,7 +157,7 @@ const Register = () => {
                                     name="password"
                                     id="password"
                                     placeholder="••••••••"
-                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
+                                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-cyan-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
                                 />
                                 {formik.errors.password &&
                                     formik.touched.password && (
@@ -171,7 +171,7 @@ const Register = () => {
                             <div>
                                 <label
                                     htmlFor="confirm-password"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                    className="mb-2 block text-sm font-medium text-cyan-300 dark:text-white"
                                 >
                                     Confirm password:
                                 </label>
@@ -197,7 +197,7 @@ const Register = () => {
                             <div>
                                 <label
                                     htmlFor="phone"
-                                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                    className="mb-2 block text-sm font-medium text-cyan-600 dark:text-white"
                                 >
                                     phone number:
                                 </label>
@@ -224,7 +224,7 @@ const Register = () => {
                                 <div>
                                     <label
                                         htmlFor="age"
-                                        className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                                        className="mb-2 block text-sm font-medium text-cyan-800 dark:text-white"
                                     >
                                         age:
                                     </label>
@@ -235,7 +235,7 @@ const Register = () => {
                                         type="number"
                                         name="age"
                                         id="age"
-                                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
+                                        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-cyan-800 focus:border-primary-600 focus:ring-primary-600 sm:text-sm"
                                         placeholder="age"
                                     />
                                     {formik.errors.age &&
@@ -259,7 +259,7 @@ const Register = () => {
                                         />
                                         <label
                                             htmlFor="bordered-radio-1"
-                                            className="ml-2 w-full py-4 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                            className="ml-2 w-full py-4 text-sm font-medium text-cyan-700 dark:text-gray-300"
                                         >
                                             Male
                                         </label>
@@ -275,7 +275,7 @@ const Register = () => {
                                         />
                                         <label
                                             htmlFor="bordered-radio-2"
-                                            className="ml-2 w-full py-4 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                            className="ml-2 w-full py-4 text-sm font-medium text-cyan-700 dark:text-gray-300"
                                         >
                                             Female
                                         </label>
@@ -294,11 +294,11 @@ const Register = () => {
                                 <div className="ml-3 text-sm">
                                     <label
                                         htmlFor="terms"
-                                        className="font-light text-gray-500 dark:text-gray-300"
+                                        className="font-light text-cyan-800 dark:text-gray-300"
                                     >
                                         I accept the{" "}
                                         <a
-                                            className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                                            className="font-medium text-cyan-900 hover:underline dark:text-primary-500"
                                             href="#"
                                         >
                                             Terms and Conditions
@@ -308,7 +308,7 @@ const Register = () => {
                             </div>
                             <button
                                 type="submit"
-                                className="w-full rounded-lg bg-cyan-500 px-5 py-2.5 text-center text-sm font-medium text-gray-100 hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300"
+                                className="w-full rounded-lg bg-cyan-500 px-5 py-2.5 text-center text-sm font-medium text-gray-100 border border-cyan-800 hover:bg-cyan-600 focus:outline-none focus:ring-4 focus:ring-primary-300"
                                 disabled={
                                     !formik.isValid ||
                                     !formik.dirty ||
@@ -320,7 +320,7 @@ const Register = () => {
                                         <div role="status">
                                             <svg
                                                 aria-hidden="true"
-                                                className="mr-2 inline h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
+                                                className="mr-2 inline h-8 w-8 animate-spin fill-cyan-800 text-gray-200 dark:text-gray-600"
                                                 viewBox="0 0 100 101"
                                                 fill="none"
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -334,13 +334,13 @@ const Register = () => {
                                                     fill="currentFill"
                                                 />
                                             </svg>
-                                            <span className="sr-only">
+                                            <span className="sr-only text-cyan-800">
                                                 Loading...
                                             </span>
                                         </div>
                                     </div>
                                 ) : (
-                                    <span>Create an account</span>
+                                    <span className="text-cyan-800">Create an account</span>
                                 )}
                             </button>
                             <GoogleAuth />
