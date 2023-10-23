@@ -43,7 +43,7 @@ function GoogleAuth() {
                     setLoading(true)
                     await axios.post('https://trello-app-iti.onrender.com/cont-with-gmail', {credintial: credentialResponse.credential})
                         .then(({data}) => {
-                            console.log(data);
+                            // console.log(data);
                             login(data.token)
                             navigate('/tasks')
                         })
