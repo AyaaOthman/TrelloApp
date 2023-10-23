@@ -2,7 +2,7 @@ export interface Task {
     _id: string;
     title: string;
     description: string;
-    status: "toDo" | "doing" | "done";
+    status: "todo" | "doing" | "done";
     createdBy: {
         _id: string;
         username: string;
