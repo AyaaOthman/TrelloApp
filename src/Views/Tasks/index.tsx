@@ -9,6 +9,7 @@ import { AnimatePresence } from "framer-motion";
 import { TEModal, TEModalDialog, TEModalContent } from "tw-elements-react";
 import { toast } from "react-toastify";
 
+//get all users
 async function getUsers() {
     return await axios
         .get("https://trello-app-iti.onrender.com/profile/all-users")
