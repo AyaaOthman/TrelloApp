@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import React, { useContext, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import {
     TERipple,
     TEModal,
@@ -13,9 +13,8 @@ import { NewTask } from "../../interfaces/Task";
 import * as yup from "yup";
 import axios from "axios";
 import { AuthContext } from "../../Context/auth.context";
-import { IUser } from "../../interfaces/register.interface";
 
-export default function AddTask() {
+export default function AddTask(props: { onAddTask: Function }) {
     const [showModal, setShowModal] = useState(false);
     const [users, setUsers] = useState<any[]>();
 
@@ -57,9 +56,12 @@ export default function AddTask() {
                     toast.success(data.message);
                     resetForm();
                     setShowModal(false);
+                    props.onAddTask();
                 })
                 .catch((err) => {
-                    const errorMsg = err?.response?.data?.message || 'something went wrong please try again';
+                    const errorMsg =
+                        err?.response?.data?.message ||
+                        "something went wrong please try again";
                     toast.error(errorMsg);
                 });
         },

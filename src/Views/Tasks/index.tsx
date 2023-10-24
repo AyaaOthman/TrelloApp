@@ -7,7 +7,7 @@ import { AuthContext } from "../../Context/auth.context";
 import { Task } from "../../interfaces/Task";
 import { AnimatePresence } from "framer-motion";
 import { TEModal, TEModalDialog, TEModalContent } from "tw-elements-react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 async function getUsers() {
     return await axios
@@ -19,9 +19,10 @@ const TasksPage = () => {
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [editingTask, setEditingTask] = useState<boolean>(false);
     const { state } = useContext(AuthContext);
-    // console.log(state.token);
+
     console.log(state.id);
     const queryClient = useQueryClient();
+
     // tasks query
     const {
         isLoading: tasksLoading,
@@ -36,10 +37,7 @@ const TasksPage = () => {
                         authorization: `Bearer__${state.token}`,
                     },
                 })
-                .then((res) => res.data.tasks)
-                .catch((err) => {
-                    toast.error(err?.response?.data?.message || 'something went wrong please try again');     
-                })
+                .then((res) => res.data.tasks),
     });
     const mutation = useMutation({
         mutationFn: async (newTask: {
@@ -58,10 +56,7 @@ const TasksPage = () => {
                             },
                         }
                     )
-                    .then((res) => res.data)
-                    .catch((err) => {
-                        toast.error(err?.response?.data?.message || 'something went wrong please try again');     
-                    })
+                    .then((res) => res.data);
             } else if (newTask.action === "delete") {
                 return axios.delete(
                     `https://trello-app-iti.onrender.com/tasks/${newTask.id}`,
@@ -70,27 +65,29 @@ const TasksPage = () => {
                             authorization: `Bearer__${state.token}`,
                         },
                     }
-                ).catch((err) => {
-                    toast.error(err?.response?.data?.message || 'something went wrong please try again');     
-                })
+                );
             }
         },
         mutationKey: ["tasks"],
         onSuccess: () => {
-            toast.success("Task was edited successfully!")
+            toast.success("Task was edited successfully!", {
+                position: "bottom-right",
+            });
             queryClient.invalidateQueries({ queryKey: ["tasks"] });
         },
-        onError: (err) => {
-            // toast.error(err.message);
+        onError: (err: any) => {
+            console.log(err?.response?.data?.message);
+
+            toast.error(
+                err?.response?.data?.message[0] ||
+                    "something went wrong please try again",
+                { position: "bottom-right" }
+            );
         },
     });
-    console.log(tasks);
+
     // users query
-    const {
-        isLoading: usersLoading,
-        error: usersError,
-        data: users,
-    } = useQuery<any[]>({
+    const { data: users } = useQuery<any[]>({
         queryKey: ["users"],
         queryFn: getUsers,
     });
@@ -102,7 +99,13 @@ const TasksPage = () => {
                     <h2 className="mb-5 text-2xl font-bold ">
                         Failing to plan is simply planning to fail !
                     </h2>
-                    <AddTask />
+                    <AddTask
+                        onAddTask={() => {
+                            queryClient.invalidateQueries({
+                                queryKey: ["tasks"],
+                            });
+                        }}
+                    />
                 </div>
                 <div className="container">
                     {(tasksLoading || mutation.isPending) && (
@@ -149,14 +152,28 @@ const TasksPage = () => {
                                                 state.id
                                             ) {
                                                 setEditingTask(true);
+                                            } else {
+                                                toast.error(
+                                                    "You are not allowed to edit this task, only the creator can edit it."
+                                                , {position:"bottom-right"});
                                             }
                                         }}
                                         onDelete={() => {
-                                            mutation.mutate({
-                                                id: selectedTask._id,
-                                                action: "delete",
-                                            });
-                                            setSelectedTask(null);
+                                            if (
+                                                selectedTask.createdBy._id ===
+                                                state.id
+                                            ) {
+                                                mutation.mutate({
+                                                    id: selectedTask._id,
+                                                    action: "delete",
+                                                });
+                                                setSelectedTask(null);
+                                            } else {
+                                                toast.error(
+                                                    "You are not allowed to delete this task, only the creator can delete it.",
+                                                    { position: "bottom-right" }
+                                                );
+                                            }
                                         }}
                                         canEdit={Boolean(
                                             selectedTask.createdBy._id ===
@@ -181,6 +198,7 @@ const TasksPage = () => {
                                                 action: "edit",
                                             });
                                         }}
+                                        users={users}
                                     />
                                 )}
                             </TEModalContent>

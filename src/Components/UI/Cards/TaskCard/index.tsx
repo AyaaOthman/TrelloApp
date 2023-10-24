@@ -2,6 +2,7 @@ import React, { MouseEventHandler } from "react";
 import { motion } from "framer-motion";
 import styles from "./TaskCard.module.css";
 import { Task } from "../../../../interfaces/Task";
+import * as Yup from "yup";
 import { Formik } from "formik";
 
 interface TaskCardProps {
@@ -19,8 +20,8 @@ interface TaskEditProps {
     layoutId: string;
     className?: string;
     onEdit: Function;
-
     onSubmit?: Function;
+    users?: any[];
 }
 const TaskCard: React.FC<TaskCardProps> = ({
     task,
@@ -145,8 +146,11 @@ export const TaskEditCard: React.FC<TaskEditProps> = ({
     className,
     onEdit,
     onSubmit,
+    users,
 }) => {
     const oldDeadLine: Date = new Date(task.deadline);
+    console.log(users);
+
     return (
         <motion.div layoutId={layoutId} className={className}>
             <Formik
@@ -159,6 +163,18 @@ export const TaskEditCard: React.FC<TaskEditProps> = ({
                         oldDeadLine.getMonth() + 1
                     }-${oldDeadLine.getDate()}`,
                 }}
+                validationSchema={Yup.object({
+                    title: Yup.string().required().min(3).label("Title"),
+                    description: Yup.string()
+                        .required()
+                        .min(30)
+                        .label("Description"),
+                    status: Yup.string().required().label("Status"),
+                    to: Yup.string()
+                        .required("You have to assign to a user.")
+                        .label("Assigned to"),
+                    deadline: Yup.date().required().label("Deadline"),
+                })}
                 onSubmit={async (values, { setSubmitting }) => {
                     try {
                         onSubmit &&
@@ -177,7 +193,14 @@ export const TaskEditCard: React.FC<TaskEditProps> = ({
                     }
                     console.log(values);
                 }}>
-                {({ handleSubmit, handleChange, handleBlur, values }) => (
+                {({
+                    handleSubmit,
+                    handleChange,
+                    handleBlur,
+                    values,
+                    errors,
+                    touched,
+                }) => (
                     <form onSubmit={handleSubmit} className="flex flex-col p-2">
                         <button type="submit">
                             <i className="fa-solid fa-check absolute end-3 top-3 cursor-pointer text-xl"></i>
@@ -199,6 +222,11 @@ export const TaskEditCard: React.FC<TaskEditProps> = ({
                                 <option value="doing">Doing</option>
                                 <option value="done">Done</option>
                             </select>
+                            {touched.status && errors.status && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.status}
+                                </p>
+                            )}
                         </div>
                         <div className="mb-4">
                             <label
@@ -206,15 +234,25 @@ export const TaskEditCard: React.FC<TaskEditProps> = ({
                                 className="mb-2 block text-sm font-bold text-gray-700">
                                 Assigned to:
                             </label>
-                            <input
-                                type="text"
+                            <select
+                                className="focus:shadow-outline w-full rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
                                 name="to"
-                                placeholder="user mail"
-                                className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                                id="to"
                                 value={values.to}
                                 onChange={handleChange}
-                                onBlur={handleBlur}
-                            />
+                                onBlur={handleBlur}>
+                                {users?.map((user) => (
+                                    <option value={user._id} key={user._id}>
+                                        {user.email}
+                                    </option>
+                                ))}
+                            </select>
+
+                            {touched.to && errors.to && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.to}
+                                </p>
+                            )}
                         </div>
                         <div className="mb-4">
                             <label
@@ -231,6 +269,11 @@ export const TaskEditCard: React.FC<TaskEditProps> = ({
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                             />
+                            {touched.title && errors.title && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.title}
+                                </p>
+                            )}
                         </div>
                         <div className="mb-4">
                             <label
@@ -245,8 +288,13 @@ export const TaskEditCard: React.FC<TaskEditProps> = ({
                                 value={values.description}
                                 onChange={handleChange}
                                 onBlur={handleBlur}></textarea>
+                            {touched.description && errors.description && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.description}
+                                </p>
+                            )}
                         </div>
-                        <div className="">
+                        <div>
                             <label
                                 htmlFor="to"
                                 className="mb-2 block text-sm font-bold text-gray-700">
@@ -261,6 +309,11 @@ export const TaskEditCard: React.FC<TaskEditProps> = ({
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                             />
+                            {touched.deadline && errors.deadline && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.deadline}
+                                </p>
+                            )}
                         </div>
                     </form>
                 )}
