@@ -357,7 +357,6 @@ const Register = () => {
                     </div>
                 </div>
             </div>
-            <ToastContainer theme="colored" position="top-center" />
         </section>
     );
 };

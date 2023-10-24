@@ -36,7 +36,10 @@ const TasksPage = () => {
                         authorization: `Bearer__${state.token}`,
                     },
                 })
-                .then((res) => res.data.tasks),
+                .then((res) => res.data.tasks)
+                .catch((err) => {
+                    toast.error(err?.response?.data?.message || 'something went wrong please try again');     
+                })
     });
     const mutation = useMutation({
         mutationFn: async (newTask: {
@@ -55,7 +58,10 @@ const TasksPage = () => {
                             },
                         }
                     )
-                    .then((res) => res.data);
+                    .then((res) => res.data)
+                    .catch((err) => {
+                        toast.error(err?.response?.data?.message || 'something went wrong please try again');     
+                    })
             } else if (newTask.action === "delete") {
                 return axios.delete(
                     `https://trello-app-iti.onrender.com/tasks/${newTask.id}`,
@@ -64,18 +70,18 @@ const TasksPage = () => {
                             authorization: `Bearer__${state.token}`,
                         },
                     }
-                );
+                ).catch((err) => {
+                    toast.error(err?.response?.data?.message || 'something went wrong please try again');     
+                })
             }
         },
         mutationKey: ["tasks"],
         onSuccess: () => {
-            toast.success("Task was edited successfully!");
-            console.log(toast);
-
+            toast.success("Task was edited successfully!")
             queryClient.invalidateQueries({ queryKey: ["tasks"] });
         },
         onError: (err) => {
-            toast.error(err.message);
+            // toast.error(err.message);
         },
     });
     console.log(tasks);
@@ -91,12 +97,6 @@ const TasksPage = () => {
     console.log(users);
     return (
         <>
-            <ToastContainer
-                theme="colored"
-                position="bottom-right"
-                pauseOnHover
-                autoClose={5000}
-            />
             <main className="container mx-auto flex min-h-screen flex-col justify-center pb-12">
                 <div className="container my-6 text-center">
                     <h2 className="mb-5 text-2xl font-bold ">

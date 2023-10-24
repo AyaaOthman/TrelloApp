@@ -59,7 +59,7 @@ export default function AddTask() {
                     setShowModal(false);
                 })
                 .catch((err) => {
-                    const errorMsg = err?.message;
+                    const errorMsg = err?.response?.data?.message || 'something went wrong please try again';
                     toast.error(errorMsg);
                 });
         },
@@ -97,10 +97,6 @@ export default function AddTask() {
                             <h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
                                 New Task
                             </h5>
-                            <ToastContainer
-                                theme="colored"
-                                position="top-center"
-                            />
 
                             {/* <!--Close button--> */}
                             <button
