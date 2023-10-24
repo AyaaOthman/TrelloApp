@@ -11,12 +11,15 @@ interface TaskCardProps {
     onClick?: () => void;
     expanded?: boolean;
     onEdit?: MouseEventHandler<HTMLElement> | undefined;
+    onDelete?: MouseEventHandler<HTMLElement> | undefined;
+    canEdit?: boolean;
 }
 interface TaskEditProps {
     task: Task;
     layoutId: string;
     className?: string;
     onEdit: Function;
+
     onSubmit?: Function;
 }
 const TaskCard: React.FC<TaskCardProps> = ({
@@ -25,6 +28,8 @@ const TaskCard: React.FC<TaskCardProps> = ({
     layoutId,
     onClick,
     onEdit,
+    onDelete,
+    canEdit,
     expanded,
 }) => {
     // console.log(task);
@@ -48,10 +53,24 @@ const TaskCard: React.FC<TaskCardProps> = ({
                     {task.status}
                 </span>
                 {/* Edit Icon */}
+                {/* Delete Icon */}
                 {expanded && (
-                    <i
-                        onClick={onEdit}
-                        className="fa-regular fa-pen-to-square absolute end-3 top-3 cursor-pointer text-xl"></i>
+                    <div className="absolute end-7 top-7">
+                        <i
+                            onClick={onEdit}
+                            className={`fa-regular fa-pen-to-square me-5 text-xl ${
+                                canEdit
+                                    ? "cursor-pointer"
+                                    : "cursor-not-allowed"
+                            }`}></i>
+                        <i
+                            onClick={onDelete}
+                            className={`fa-solid fa-trash text-xl ${
+                                canEdit
+                                    ? "cursor-pointer"
+                                    : "cursor-not-allowed"
+                            }`}></i>
+                    </div>
                 )}
                 <p className="text-sm font-bold">
                     {new Date(task.deadline).toLocaleDateString()}
