@@ -48,7 +48,7 @@ function App() {
     return (
         <AuthContextProvider>
             <QueryClientProvider client={queryClient}>
-                <RouterProvider router={routes}></RouterProvider>;
+                <RouterProvider router={routes}></RouterProvider>
             </QueryClientProvider>
         </AuthContextProvider>
     );
