@@ -15,12 +15,14 @@ import { NewTask } from "../../interfaces/Task";
 import * as yup from "yup";
 import axios from "axios";
 import { AuthContext } from "../../Context/auth.context";
+import { IUser } from "../../interfaces/register.interface";
 
 export default function AddTask() {
     const [showModal, setShowModal] = useState(false);
+    const [users, setUsers] = useState<any[]>();
+
     const { state } = useContext(AuthContext);
     const token = state.token;
-
     const formik = useFormik<NewTask>({
         initialValues: {
             title: "",
@@ -28,6 +30,7 @@ export default function AddTask() {
             assignTo: "",
             deadline: "",
         },
+
         validationSchema: yup.object({
             title: yup
                 .string()
@@ -39,17 +42,16 @@ export default function AddTask() {
                 .required("description is required")
                 .max(250, "must be  less than 250 character")
                 .min(10, "must be at least 30 character"),
-            assignTo: yup
-                .string()
 
-                .required("must assign task"),
+            assignTo: yup.string().required("assign user is required!"),
+
             deadline: yup.string().required("must set task deadline"),
         }),
         onSubmit: async (values, { resetForm }) => {
             let data = {
                 ...values,
             };
-            let addedTasks = await axios
+            await axios
                 .post("https://trello-app-iti.onrender.com/tasks", data, {
                     headers: { authorization: ` Bearer__${token}` },
                 })
@@ -65,14 +67,25 @@ export default function AddTask() {
         },
     });
 
+    async function getUsers() {
+        await axios
+            .get("https://trello-app-iti.onrender.com/profile/all-users")
+            .then(
+                (data) => setUsers(data.data.users)
+                // console.log(data.data.users)
+            );
+    }
+
     return (
         <div>
             {/* <!-- Button trigger modal --> */}
             <TERipple rippleColor="white">
                 <button
                     className="inline-block rounded bg-Orange px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-black hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-Orange focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-orange-400 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                    onClick={() => setShowModal(true)}
-                >
+                    onClick={() => {
+                        setShowModal(true);
+                        getUsers();
+                    }}>
                     Add New Task
                 </button>
             </TERipple>
@@ -96,16 +109,14 @@ export default function AddTask() {
                                 type="button"
                                 className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
                                 onClick={() => setShowModal(false)}
-                                aria-label="Close"
-                            >
+                                aria-label="Close">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     strokeWidth="1.5"
                                     stroke="currentColor"
-                                    className="h-6 w-6"
-                                >
+                                    className="h-6 w-6">
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -119,8 +130,7 @@ export default function AddTask() {
                             <div className="container">
                                 <form
                                     onSubmit={formik.handleSubmit}
-                                    className="p-2"
-                                >
+                                    className="p-2">
                                     <div className="mb-4 flex flex-col items-start">
                                         <label htmlFor="title">
                                             Task Title
@@ -156,8 +166,9 @@ export default function AddTask() {
                                             className="w-full border"
                                             value={formik.values.description}
                                             onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                        ></textarea>
+                                            onBlur={
+                                                formik.handleBlur
+                                            }></textarea>
                                         {formik.errors.description &&
                                             formik.touched.description && (
                                                 <div className="my-2 w-full bg-red-800 p-1">
@@ -170,20 +181,29 @@ export default function AddTask() {
                                                 </div>
                                             )}
                                     </div>
-                                    <div className="mb-4 flex justify-between">
+                                    <div className="mb-4 flex justify-between ">
                                         <div className="flex flex-col items-start">
                                             <label htmlFor="assignTo">
                                                 Assignd To ID
                                             </label>
-                                            <input
-                                                type="text"
-                                                className="border"
-                                                id="assignTo"
+                                            <select
+                                                className="border p-2"
                                                 name="assignTo"
+                                                id="assignTo"
                                                 value={formik.values.assignTo}
                                                 onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                            />
+                                                onBlur={formik.handleBlur}>
+                                                {users?.map((user) => {
+                                                    return (
+                                                        <option
+                                                            key={user._id}
+                                                            value={user._id}>
+                                                            {user.username}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
+
                                             {formik.errors.assignTo &&
                                                 formik.touched.assignTo && (
                                                     <div className="my-2 w-full bg-red-800 p-1">
@@ -227,16 +247,14 @@ export default function AddTask() {
                                         <button
                                             type="button"
                                             className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
-                                            onClick={() => setShowModal(false)}
-                                        >
+                                            onClick={() => setShowModal(false)}>
                                             Discard
                                         </button>
                                     </TERipple>
                                     <TERipple rippleColor="light">
                                         <button
                                             type="submit"
-                                            className="ml-2 inline-block rounded !bg-Orange px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-black hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-Orange focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-orange-400 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                                        >
+                                            className="ml-2 inline-block rounded !bg-Orange px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-black hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-Orange focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-orange-400 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
                                             Add Task
                                         </button>
                                     </TERipple>
