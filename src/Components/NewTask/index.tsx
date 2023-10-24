@@ -1,8 +1,6 @@
 import { useFormik } from "formik";
 import React, { useContext, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
+import { toast } from "react-toastify";
 import {
     TERipple,
     TEModal,
@@ -15,9 +13,8 @@ import { NewTask } from "../../interfaces/Task";
 import * as yup from "yup";
 import axios from "axios";
 import { AuthContext } from "../../Context/auth.context";
-import { IUser } from "../../interfaces/register.interface";
 
-export default function AddTask() {
+export default function AddTask(props: { onAddTask: Function }) {
     const [showModal, setShowModal] = useState(false);
     const [users, setUsers] = useState<any[]>();
 
@@ -59,9 +56,12 @@ export default function AddTask() {
                     toast.success(data.message);
                     resetForm();
                     setShowModal(false);
+                    props.onAddTask();
                 })
                 .catch((err) => {
-                    const errorMsg = err?.message;
+                    const errorMsg =
+                        err?.response?.data?.message ||
+                        "something went wrong please try again";
                     toast.error(errorMsg);
                 });
         },
@@ -99,10 +99,6 @@ export default function AddTask() {
                             <h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
                                 New Task
                             </h5>
-                            <ToastContainer
-                                theme="colored"
-                                position="top-center"
-                            />
 
                             {/* <!--Close button--> */}
                             <button

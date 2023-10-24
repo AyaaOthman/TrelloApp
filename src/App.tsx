@@ -10,6 +10,7 @@ import Landing from "./Views/Landing/Landing";
 import ProfilePage from "./Views/profile";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ProtectedRoute from "./Components/Routes/ProtectedRoute";
+import { ToastContainer } from "react-toastify";
 
 const queryClient = new QueryClient();
 const routes = createBrowserRouter([
@@ -48,6 +49,10 @@ function App() {
     return (
         <AuthContextProvider>
             <QueryClientProvider client={queryClient}>
+                <ToastContainer
+                    theme="colored"
+                    position="top-center"
+                />
                 <RouterProvider router={routes}></RouterProvider>
             </QueryClientProvider>
         </AuthContextProvider>

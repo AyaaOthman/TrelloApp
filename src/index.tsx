@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import "tw-elements-react/dist/css/tw-elements-react.min.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
